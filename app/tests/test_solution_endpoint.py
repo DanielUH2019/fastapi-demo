@@ -16,7 +16,6 @@ def test_solution_with_valid_orders(orders: list[Order]):
             "criterion": "completed",
         },
     )
-    print(response.json())
     assert response.status_code == 200
     assert math.isclose(response.json(), 1299.69)
 
@@ -79,3 +78,8 @@ def test_solution_with_zero_quantity_orders():
         "/solution", json={"orders": orders_with_zero_quantity, "criterion": "all"}
     )
     assert response.status_code == 422
+
+def test_solution_with_empty_orders():
+    response = client.post("/solution", json={"orders": [], "criterion": "completed"})
+    assert response.status_code == 200
+    assert response.json() == 0
