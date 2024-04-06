@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from typing import Annotated
+from fastapi import Body, FastAPI
 
 from app.models import Criterion, Order
 from app.utils import process_orders
@@ -7,5 +8,5 @@ from app.utils import process_orders
 api = FastAPI()
 
 @api.post("/solution")
-def solution(orders: list[Order], criterion: Criterion = Criterion.all) -> float:
+def solution(orders: list[Order], criterion: Annotated[Criterion, Body()]) -> float:
     return process_orders(orders, criterion)
